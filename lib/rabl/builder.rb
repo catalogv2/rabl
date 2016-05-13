@@ -135,7 +135,7 @@ module Rabl
       # attribute :foo, :as => "bar"
       # attribute :foo, :as => "bar", :if => lambda { |m| m.foo }
       def attribute(name, options = {})
-        return unless @_object && attribute_present?(name) && resolve_condition(options)
+        return unless @_object && attribute_present?(name) && resolve_condition(options.merge({ :name => name }))
 
         attribute = data_object_attribute(name)
         name = (options[:as] || name).to_sym
@@ -197,9 +197,9 @@ module Rabl
       end
 
       # Evaluate conditions given a symbol/proc/lambda/variable to evaluate
-      def call_condition_proc(condition, object)
+      def call_condition_proc(condition, object, name)
         # This will evaluate lambda, proc & symbol and call it with 1 argument
-        return condition.to_proc.call(object) if condition.is_a?(Proc) || condition.is_a?(Symbol)
+        return condition.to_proc.call(object, name) if condition.is_a?(Proc) || condition.is_a?(Symbol)
         # Else we send directly the object
         condition
       end
@@ -211,8 +211,8 @@ module Rabl
       # resolve_condition(:unless => lambda { |m| false }, :if => proc { true}) => true
       def resolve_condition(options)
         result = true
-        result &&= call_condition_proc(options[:if], @_object) if options.key?(:if)
-        result &&= !call_condition_proc(options[:unless], @_object) if options.key?(:unless)
+        result &&= call_condition_proc(options[:if], @_object, options[:name]) if options.key?(:if)
+        result &&= !call_condition_proc(options[:unless], @_object, options[:name]) if options.key?(:unless)
         result
       end
 
