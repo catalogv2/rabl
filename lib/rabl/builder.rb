@@ -198,8 +198,14 @@ module Rabl
 
       # Evaluate conditions given a symbol/proc/lambda/variable to evaluate
       def call_condition_proc(condition, object, name)
-        # This will evaluate lambda, proc & symbol and call it with 1 argument
-        return condition.to_proc.call(object, name) if condition.is_a?(Proc) || condition.is_a?(Symbol)
+        # This will evaluate lambda, proc & symbol and depending on the arity
+        # call it with 1 argument (object) or 2 arguments (object and attribute name)
+        if condition.is_a?(Proc) || condition.is_a?(Symbol)
+          proc = condition.to_proc
+
+          return proc.arity == 1 ? proc.call(object) : proc.call(object, name)
+        end
+
         # Else we send directly the object
         condition
       end
