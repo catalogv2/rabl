@@ -216,9 +216,11 @@ module Rabl
       # resolve_condition(:unless => lambda { |m| false }) => true
       # resolve_condition(:unless => lambda { |m| false }, :if => proc { true}) => true
       def resolve_condition(options)
+        name = (options[:as] || options[:name]).to_s
+
         result = true
-        result &&= call_condition_proc(options[:if], @_object, options[:name]) if options.key?(:if)
-        result &&= !call_condition_proc(options[:unless], @_object, options[:name]) if options.key?(:unless)
+        result &&= call_condition_proc(options[:if], @_object, name) if options.key?(:if)
+        result &&= !call_condition_proc(options[:unless], @_object, name) if options.key?(:unless)
         result
       end
 
