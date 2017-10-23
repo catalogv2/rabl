@@ -34,4 +34,7 @@ group :development, :test do
   platforms :mri_20, :mri_21, :mri_22 do
     gem 'byebug'
   end if RUBY_VERSION > '2.0'
+
+  gem 'pry', '~> 0.9.10'
+  gem 'pry-nav'
 end
