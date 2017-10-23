@@ -19,7 +19,7 @@ group :test do
   gem 'activerecord', :require => 'active_record'
   gem 'sqlite3'
   gem 'sinatra', '>= 1.2.0'
-  gem 'hashie'
+  gem 'hashie', '~> 3.5.5'
 end
 
 group :development, :test do
