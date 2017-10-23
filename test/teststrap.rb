@@ -26,12 +26,20 @@ Riot.pretty_dots
 
 class Riot::Situation
   def char_split(str)
-    str.force_encoding("iso-8859-1").split("").sort
+    if RUBY_VERSION > '1.9'
+      str.force_encoding("iso-8859-1").split("").sort
+    else
+      str.split("").sort
+    end
   end
 end
 
 class Riot::Context
   def char_split(str)
-    str.force_encoding("iso-8859-1").split("").sort
+    if RUBY_VERSION > '1.9'
+      str.force_encoding("iso-8859-1").split("").sort
+    else
+      str.split("").sort
+    end
   end
 end
