@@ -137,7 +137,7 @@ context "Rabl::Renderer" do
           object @foo
           node(:test) do |foo|
             {
-              test: "#{foo.attribute}"
+              :test => "#{foo.attribute}"
             }
           end
         }
@@ -148,7 +148,7 @@ context "Rabl::Renderer" do
           object false
           node do
             {
-              test_attribute: 'test_value'
+              :test_attribute => 'test_value'
             }
           end
           child(@foos => :foo_collection) do
