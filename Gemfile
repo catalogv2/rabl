@@ -23,5 +23,15 @@ group :test do
 end
 
 group :development, :test do
-  # gem 'debugger'
+  platforms :mri_18 do
+    gem 'ruby-debug'
+  end
+
+  platforms :mri_19 do
+    gem 'debugger'
+  end
+
+  platforms :mri_20, :mri_21, :mri_22 do
+    gem 'byebug'
+  end if RUBY_VERSION > '2.0'
 end
