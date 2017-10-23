@@ -1,0 +1,52 @@
+version: 2.0
+
+jobs:
+  ruby1.8:
+    docker:
+      - image: phusion/passenger-ruby18:0.9.9
+    steps:
+      - checkout
+      - restore_cache:
+          key: gemfile-1-8-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+      - run: bundle install -j3 --path vendor/bundle
+      - save_cache:
+          key: gemfile-1-8-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+          paths:
+            - vendor/bundle
+      - run: bundle exec rake test
+
+  ruby2.1:
+    docker:
+      - image: circleci/ruby:2.1
+    steps:
+      - checkout
+      - restore_cache:
+          key: gemfile-2-1-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+      - run: bundle install -j3 --path vendor/bundle
+      - save_cache:
+          key: gemfile-2-1-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+          paths:
+            - vendor/bundle
+      - run: bundle exec rake test
+
+  ruby2.2:
+    docker:
+      - image: circleci/ruby:2.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: gemfile-2-2-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+      - run: bundle install -j3 --path vendor/bundle
+      - save_cache:
+          key: gemfile-2-2-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+          paths:
+            - vendor/bundle
+      - run: bundle exec rake test
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - ruby1.8
+      - ruby2.1
+      - ruby2.2
