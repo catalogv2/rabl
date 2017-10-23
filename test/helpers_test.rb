@@ -76,6 +76,10 @@ context "Rabl::Helpers" do
       @helper_class.is_object?(obj.new)
     end.equals(true)
 
+    asserts "returns true for a hash" do
+      @helper_class.is_object?(:name => 'hello')
+    end.equals(true)
+
     asserts "returns true for a hash alias" do
       @helper_class.is_object?(@user => :user)
     end.equals(true)
@@ -114,6 +118,10 @@ context "Rabl::Helpers" do
     asserts "returns false for an object with each" do
       obj = Class.new { def each; end }
       @helper_class.is_collection?(obj.new)
+    end.equals(false)
+
+    asserts "returns false for a hash" do
+      @helper_class.is_collection?(:name => 'hello')
     end.equals(false)
 
     asserts "returns false for a hash alias" do
