@@ -203,7 +203,7 @@ module Rabl
         if condition.is_a?(Proc) || condition.is_a?(Symbol)
           proc = condition.to_proc
 
-          return proc.arity == 1 ? proc.call(object) : proc.call(object, name)
+          return proc.arity <= 1 ? proc.call(object) : proc.call(object, name)
         end
 
         # Else we send directly the object
