@@ -116,31 +116,6 @@ context "Rabl::Engine" do
         scope.instance_variable_set :@user, User.new(:name => 'leo', :city => 'LA')
         template.render(scope)
       end.equals "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n  <user>\n    <city>LA</city>\n  </user>\n</user>\n"
-
-      asserts "that it can create a child node with different key" do
-        template = rabl %{
-          object @user
-          attribute :name
-          child(@user => :person) { attribute :city }
-        }
-        scope = Object.new
-        scope.instance_variable_set :@user, User.new(:name => 'leo', :city => 'LA')
-        template.render(scope)
-      end.equals "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n  <name>leo</name>\n  <person>\n    <city>LA</city>\n  </person>\n</user>\n"
-    end
-
-    context "#glue" do
-      asserts "that it glues data from a child node" do
-        template = rabl %{
-          object @user
-          attribute :name
-          glue(@user) { attribute :city }
-          glue(@user) { attribute :age  }
-        }
-        scope = Object.new
-        scope.instance_variable_set :@user, User.new(:name => 'leo', :city => 'LA', :age => 12)
-        template.render(scope)
-      end.equals "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n  <name>leo</name>\n  <city>LA</city>\n  <age type=\"integer\">12</age>\n</user>\n"
     end
 
     teardown do
@@ -263,31 +238,6 @@ context "Rabl::Engine" do
         scope.instance_variable_set :@user, User.new(:name => 'leo', :city => 'LA')
         template.render(scope)
       end.equals "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n  <user>\n    <user>\n      <city>LA</city>\n    </user>\n  </user>\n</user>\n"
-
-      asserts "that it can create a child node with different key" do
-        template = rabl %{
-          object @user
-          attribute :name
-          child(@user => :person) { attribute :city }
-        }
-        scope = Object.new
-        scope.instance_variable_set :@user, User.new(:name => 'leo', :city => 'LA')
-        template.render(scope)
-      end.equals "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n  <user>\n    <name>leo</name>\n    <person>\n      <city>LA</city>\n    </person>\n  </user>\n</user>\n"
-    end
-
-    context "#glue" do
-      asserts "that it glues data from a child node" do
-        template = rabl %{
-          object @user
-          attribute :name
-          glue(@user) { attribute :city }
-          glue(@user) { attribute :age  }
-        }
-        scope = Object.new
-        scope.instance_variable_set :@user, User.new(:name => 'leo', :city => 'LA', :age => 12)
-        template.render(scope)
-      end.equals "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n  <user>\n    <name>leo</name>\n    <city>LA</city>\n    <age type=\"integer\">12</age>\n  </user>\n</user>\n"
     end
 
     teardown do
