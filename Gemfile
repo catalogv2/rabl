@@ -7,7 +7,7 @@ gem 'i18n', '~> 0.6.11'
 
 platforms :mri_18 do
   gem 'SystemTimer'
-  gem 'json'
+  gem 'json', '< 2'
 end
 
 group :test do
