@@ -15,6 +15,20 @@ jobs:
             - vendor/bundle
       - run: bundle exec rake test
 
+  ruby1.9:
+    docker:
+      - image: phusion/passenger-ruby19:0.9.18
+    steps:
+      - checkout
+      - restore_cache:
+          key: gemfile-1-9-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+      - run: bundle install -j3 --path vendor/bundle
+      - save_cache:
+          key: gemfile-1-9-{{ checksum "Gemfile" }}-{{ checksum "rabl.gemspec" }}
+          paths:
+            - vendor/bundle
+      - run: bundle exec rake test
+
   ruby2.1:
     docker:
       - image: circleci/ruby:2.1
@@ -48,5 +62,6 @@ workflows:
   build:
     jobs:
       - ruby1.8
+      - ruby1.9
       - ruby2.1
       - ruby2.2
