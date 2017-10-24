@@ -18,7 +18,7 @@ group :test do
   gem 'rack-test', :require => 'rack/test'
   gem 'activerecord', :require => 'active_record'
   gem 'sqlite3'
-  gem 'sinatra', '>= 1.2.0'
+  gem 'sinatra', '~> 1.4'
   gem 'hashie', '~> 3.5.5'
 end
 
