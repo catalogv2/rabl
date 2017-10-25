@@ -18,18 +18,19 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
 
-
   if RUBY_VERSION < "1.9"
-    s.add_dependency 'activesupport', '>= 2.3.14', '<= 4'
+    s.add_dependency 'activesupport', '>= 2.3.14', '< 4'
+  elsif RUBY_VERSION < "2.2"
+    s.add_dependency 'activesupport', '>= 2.3.14', '< 5'
   else
     s.add_dependency "activesupport", '>= 2.3.14'
   end
 
   s.add_development_dependency 'riot',     '~> 0.12.3'
   s.add_development_dependency 'rr',       '~> 1.0.2'
-  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rake',     '~> 10.5'
   s.add_development_dependency 'tilt'
-  s.add_development_dependency 'oj'
+  s.add_development_dependency 'oj',       '< 3'
   s.add_development_dependency 'msgpack',  '~> 0.4.5'
   s.add_development_dependency 'bson',     '~> 1.7.0'
   s.add_development_dependency 'plist'

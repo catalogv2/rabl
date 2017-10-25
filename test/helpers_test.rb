@@ -76,6 +76,10 @@ context "Rabl::Helpers" do
       @helper_class.is_object?(obj.new)
     end.equals(true)
 
+    asserts "returns true for a hash" do
+      @helper_class.is_object?(:name => 'hello')
+    end.equals(true)
+
     asserts "returns true for a hash alias" do
       @helper_class.is_object?(@user => :user)
     end.equals(true)
@@ -86,7 +90,9 @@ context "Rabl::Helpers" do
     end.equals(true)
 
     asserts "returns true for a Hashie::Mash" do
-      obj = Hashie::Mash.new({:name => 'hello'})
+      obj = Class.new(Hashie::Mash) do
+        include Hashie::Extensions::Mash::KeepOriginalKeys
+      end.new({:name => "hello"})
       @helper_class.is_object?(obj)
     end.equals(true)
 
@@ -114,6 +120,10 @@ context "Rabl::Helpers" do
       @helper_class.is_collection?(obj.new)
     end.equals(false)
 
+    asserts "returns false for a hash" do
+      @helper_class.is_collection?(:name => 'hello')
+    end.equals(false)
+
     asserts "returns false for a hash alias" do
       @helper_class.is_collection?(@user => :user)
     end.equals(false)
@@ -123,12 +133,16 @@ context "Rabl::Helpers" do
     end.equals(true)
 
     asserts "returns false for a Hashie::Mash with 1 key" do
-      obj = Hashie::Mash.new({:name => 'hello'})
+      obj = Class.new(Hashie::Mash) do
+        include Hashie::Extensions::Mash::KeepOriginalKeys
+      end.new({:name => 'hello'})
       @helper_class.is_collection?(obj)
     end.equals(false)
 
     asserts "returns false for a Hashie::Mash with 2 keys" do
-      obj = Hashie::Mash.new({:name => 'hello', :key2 => 'key2'})
+      obj = Class.new(Hashie::Mash) do
+        include Hashie::Extensions::Mash::KeepOriginalKeys
+      end.new({:name => 'hello', :key2 => 'key2'})
       @helper_class.is_collection?(obj)
     end.equals(false)
 
