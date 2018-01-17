@@ -147,7 +147,7 @@ module Rabl
       # node(:foo) { "bar" }
       # node(:foo, :if => lambda { |m| m.foo.present? }) { "bar" }
       def node(name, options = {}, &block)
-        return unless resolve_condition(options)
+        return unless resolve_condition(options.merge({ :name => name }))
 
         result = block.call(@_object)
         if name.present?
