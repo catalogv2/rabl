@@ -163,9 +163,10 @@ module Rabl
       # child(@user => :person) { ... }
       # child(@users => :people) { ... }
       def child(data, options = {}, &block)
-        return unless data.present? && resolve_condition(options)
-
         name   = is_name_value?(options[:root]) ? options[:root] : data_name(data)
+
+        return unless data.present? && resolve_condition(options.merge({ :name => name}))
+
         object = data_object(data)
 
         engine_options = @options.slice(:child_root)
