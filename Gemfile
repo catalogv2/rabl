@@ -15,7 +15,7 @@ group :test do
   gem 'builder'
 
   # FIXTURES
-  gem 'rack-test', :require => 'rack/test'
+  gem 'rack-test', '~> 0.7.0', :require => 'rack/test'
   gem 'activerecord', :require => 'active_record'
   gem 'sqlite3'
   gem 'sinatra', '~> 1.4'
